@@ -1,0 +1,2 @@
+fun is_older (firstdate: int * int * int, seconddate: int * int * int) =
+    return true;
