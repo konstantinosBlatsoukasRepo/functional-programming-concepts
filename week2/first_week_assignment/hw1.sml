@@ -14,7 +14,7 @@ fun is_older (firstDate: int * int * int, secondDate: int * int * int) =
 
 fun number_in_month (dates: (int * int * int) list, month: int) =
     let
-	fun countMonths(monthCounter: int, dates: (int * int * int) list, month: int) =
+	fun countMonths (monthCounter: int, dates: (int * int * int) list, month: int) =
 	    if null dates then monthCounter else
 	    if #2 (hd dates) = month then countMonths(monthCounter + 1, tl dates, month) else
 	    countMonths(monthCounter, tl dates, month)
@@ -24,7 +24,7 @@ fun number_in_month (dates: (int * int * int) list, month: int) =
     
 fun number_in_months (dates: (int * int * int) list, months: int list) =
     let
-	fun countMonthsInList(dates: (int * int * int) list, months: int list, counter: int) =
+	fun countMonthsInList (dates: (int * int * int) list, months: int list, counter: int) =
 	    if null months then counter
 	    else countMonthsInList(dates, tl months, counter + number_in_month(dates, hd months))
     in
@@ -33,7 +33,7 @@ fun number_in_months (dates: (int * int * int) list, months: int list) =
 
 fun dates_in_month (dates: (int * int * int) list, month: int) =
     let
-	fun countDates(dates: (int * int * int) list, month: int, accDates: (int * int * int) list) = 
+	fun countDates (dates: (int * int * int) list, month: int, accDates: (int * int * int) list) = 
             if null dates then accDates
 	    else if #2 (hd dates) = month then countDates(tl dates, month, hd dates :: accDates)
             else countDates(tl dates, month, accDates)							   
@@ -50,12 +50,22 @@ fun append_dates (firstDateList: (int * int * int) list, secondDateList: (int * 
 
 fun dates_in_months (dates: (int * int * int) list, months: int list) =
     let
-	fun countMonthsInList(dates: (int * int * int) list, months: int list, accDates: (int * int * int) list) =
+	fun countMonthsInList (dates: (int * int * int) list, months: int list, accDates: (int * int * int) list) =
 	    if null months then accDates
 	    else countMonthsInList(dates, tl months, append_dates(accDates, dates_in_month(dates, hd months)))
     in
 	countMonthsInList(dates, months, [])
     end 
 		 
+fun get_nth (strings: string list, index: int) =
+    if null strings
+        then " "
+    else
+	let
+	    fun inner_get_nth (strings: string list, index: int, counter: int) =
+		if index = counter then hd strings
+		else inner_get_nth (tl strings, index, counter + 1)			   
+	in
+	    inner_get_nth (strings, index, 1)
+	end 
 
-   
