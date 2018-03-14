@@ -107,3 +107,17 @@ fun month_range (day1: int, day2: int) =
 	in
 	    months_in_range (day1, day2, [])
 	end
+
+	    
+fun oldest (dates: (int * int * int) list) =
+    if null dates then
+	NONE
+    else
+	let
+	    fun inner_oldest(dates: (int * int * int) list, oldest: int * int * int) =
+		if null dates then SOME oldest else
+		if is_older(hd dates, oldest) then inner_oldest(tl dates, hd dates)
+ 		else inner_oldest(tl dates, oldest)
+	in
+	    inner_oldest(dates, hd dates)
+	end 
