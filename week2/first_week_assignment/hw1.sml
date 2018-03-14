@@ -41,13 +41,6 @@ fun dates_in_month (dates: (int * int * int) list, month: int) =
 	countDates(dates, month, [])		
     end 
 
-fun append_dates (firstDateList: (int * int * int) list, secondDateList: (int * int * int) list) =
-    if null firstDateList andalso not (null secondDateList) then secondDateList else
-    if null secondDateList andalso not (null firstDateList) then firstDateList else
-    if not (null secondDateList) andalso not (null firstDateList)
-    then hd firstDateList :: append_dates(tl firstDateList, secondDateList)
-    else []					     
-
 fun dates_in_months (dates: (int * int * int) list, months: int list) =
     let
 	fun countMonthsInList (dates: (int * int * int) list, months: int list, accDates: (int * int * int) list) =
@@ -69,3 +62,48 @@ fun get_nth (strings: string list, index: int) =
 	    inner_get_nth (strings, index, 1)
 	end 
 
+fun date_to_string (year: int, month: int, day: int) =
+    let 
+	val monthString = get_nth (["January", "February", "March", "April",
+				    "May", "June", "July", "August", "September", "October", "November", "December"], month)
+        val yearString = Int.toString year
+        val dayString = Int.toString day				             				   
+    in
+	monthString ^ " " ^ dayString ^ ", " ^ yearString
+    end	
+    			      
+fun number_before_reaching_sum (sum: int, nums: int list) =
+    let
+	fun acc_sum (sum: int, nums: int list, iterativeSum: int, index: int) =
+	    if iterativeSum >= sum andalso index = 1 then index else
+	    if iterativeSum >= sum then index - 1
+            else acc_sum(sum, tl nums, hd nums + iterativeSum, index + 1) 					    					    	
+    in
+	acc_sum (sum, tl nums, hd nums, 1)
+    end    
+			       
+fun what_month (day: int) =
+    if day >= 1 andalso day <= 31 then 1 else
+    if day >= 32 andalso day <= 59 then 2 else
+    if day >= 60 andalso day <= 90 then 3 else
+    if day >= 91 andalso day <= 120 then 4 else
+    if day >= 121 andalso day <= 151 then 5 else
+    if day >= 152 andalso day <= 181 then 6 else
+    if day >= 182 andalso day <= 212 then 7 else
+    if day >= 213 andalso day <= 243 then 8 else
+    if day >= 244 andalso day <= 273 then 9 else
+    if day >= 274 andalso day <= 304 then 10 else
+    if day >= 305 andalso day <= 334 then 11
+    else 12
+	     
+fun month_range (day1: int, day2: int) =
+    if day1 > day2 then []
+    else
+	let
+	    val arrayLength = day2 - day1 + 1
+	    fun months_in_range (day1: int, day2: int, accMonths: int list) =
+		if day2 < day1 then accMonths
+		else months_in_range(day1, day2 - 1, what_month(day2) :: accMonths)			
+	in
+	    months_in_range (day1, day2, [])
+	end
