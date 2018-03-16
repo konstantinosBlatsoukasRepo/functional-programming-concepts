@@ -1,17 +1,21 @@
 fun is_older (firstDate: int * int * int, secondDate: int * int * int) =
     let
-	val firstYear = #1 firstDate;
-	val firstMonth = #2 firstDate;
-	val firstDay = #3 firstDate;
-	val secondYear = #1 secondDate;
-	val secondMonth = #2 secondDate;
-	val secondDay = #3 secondDate;
+	val isFirstYearOlder = (#1 firstDate < #1 secondDate)
+	val isFirstYearMoreRecent = (#1 firstDate > #1 secondDate)
+	val isFirstMonthOlder = (#2 firstDate < #2 secondDate)
+	val isFirstMonthMoreRecent = (#2 firstDate > #2 secondDate)
+	val isFirstDayOlder = (#3 firstDate < #3 secondDate)
+	val isFirstDayMoreRecent = (#3 firstDate > #3 secondDate)	   			 
     in
-	if firstYear < secondYear then true else false;
-	if firstMonth < secondMonth then true else false;
-	if firstDay < secondDay then true else false
-    end
-
+	if isFirstYearOlder then true else
+	if isFirstYearMoreRecent then false else
+	if isFirstMonthOlder then true else
+	if isFirstMonthMoreRecent then false else
+	if isFirstDayOlder then true else
+	if isFirstDayMoreRecent then false else
+	false
+    end 	
+    
 fun number_in_month (dates: (int * int * int) list, month: int) =
     let
 	fun countMonths (monthCounter: int, dates: (int * int * int) list, month: int) =
@@ -39,7 +43,14 @@ fun dates_in_month (dates: (int * int * int) list, month: int) =
             else countDates(tl dates, month, accDates)							   
     in
 	countDates(dates, month, [])		
-    end 
+    end
+
+fun append_dates (firstDateList: (int * int * int) list, secondDateList: (int * int * int) list) =
+    if null firstDateList andalso not (null secondDateList) then secondDateList else
+    if null secondDateList andalso not (null firstDateList) then firstDateList else
+    if not (null secondDateList) andalso not (null firstDateList)
+    then hd firstDateList :: append_dates(tl firstDateList, secondDateList)
+    else []			
 
 fun dates_in_months (dates: (int * int * int) list, months: int list) =
     let
@@ -107,3 +118,17 @@ fun month_range (day1: int, day2: int) =
 	in
 	    months_in_range (day1, day2, [])
 	end
+
+	    
+fun oldest (dates: (int * int * int) list) =
+    if null dates then
+	NONE
+    else
+	let
+	    fun inner_oldest(dates: (int * int * int) list, oldest: int * int * int) =
+		if null dates then SOME oldest else
+		if is_older(hd dates, oldest) then inner_oldest(tl dates, hd dates)
+ 		else inner_oldest(tl dates, oldest)
+	in
+	    inner_oldest(dates, hd dates)
+	end 
