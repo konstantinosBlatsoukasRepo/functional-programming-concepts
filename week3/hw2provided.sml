@@ -41,7 +41,23 @@ fun get_substitutions2 (substitutionStringListList, str) =
 				 | SOME i => aux(x', str, i @ acc)
         in
 	    aux (substitutionStringListList, str, [])
-	end    
+	end
+
+fun similar_names (substitutionStringListList, {first, middle, last}) =
+    let
+	val subs = get_substitutions1(substitutionStringListList, first)
+	fun aux_similar_names (subs, aux_first, aux_middle, aux_last, acc) =
+	    case acc of
+		[] => aux_similar_names (subs, first, middle, last, {first = aux_first, middle = aux_middle, last = last}::acc)
+	     | _ => case subs of
+			[] => acc
+		      | x :: xs  => aux_similar_names (xs, first, middle, last, {first = x, middle = aux_middle, last = last}::acc)	    
+    in
+	 aux_similar_names(subs, first, middle, last, [])	      
+    end	
+     
+    
+	    
 (*case all_except_option (str, x) of 
 		       NONE => get_substitutions2 (x', str)
 		     | SOME i => i @ get_substitutions2 (x', str)*) 							
