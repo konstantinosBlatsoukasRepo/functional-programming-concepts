@@ -24,7 +24,27 @@ fun all_except_option (name, names) =
 	help_all_except_option(name, names, [])
     end
     					   
-					      
+fun get_substitutions1 (substitutionStringListList, str) = 
+    case substitutionStringListList of
+	[] => []
+      | x :: x' => case all_except_option (str, x) of 
+		       NONE => get_substitutions1 (x', str)
+		     | SOME i => i @ get_substitutions1 (x', str)
+
+fun get_substitutions2 (substitutionStringListList, str) =     
+	let
+	    fun aux (substitutionStringListList, str, acc) =
+		case substitutionStringListList of
+		    [] => acc
+		  | x :: x' => case all_except_option (str, x) of
+				   NONE => aux(x', str, acc)
+				 | SOME i => aux(x', str, i @ acc)
+        in
+	    aux (substitutionStringListList, str, [])
+	end    
+(*case all_except_option (str, x) of 
+		       NONE => get_substitutions2 (x', str)
+		     | SOME i => i @ get_substitutions2 (x', str)*) 							
    
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
