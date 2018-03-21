@@ -107,3 +107,14 @@ fun remove_card (cs, c, e) =
     in
 	aux_remove_card (cs, c, e, [], 0)
     end
+
+fun sum_cards cs =
+    let
+	fun aux (cs, score) =
+            case cs of
+		[] => score
+	  | hd::[] => aux([], score + card_value(hd))
+	  | hd::tl => aux(tl, score + card_value(hd))
+    in
+	aux(cs, 0)
+    end 
