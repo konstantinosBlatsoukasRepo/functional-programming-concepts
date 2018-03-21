@@ -94,4 +94,16 @@ fun card_value (suit, rank) =
      | Num 9 => 9
      | Ace => 11
      | _ => 10 		   
-       
+
+fun remove_card (cs, c, e) =
+    let
+	fun aux_remove_card (cs, c, e, acc, count) =
+	    case cs of
+		[] => if count = 0 then raise e else acc
+	  | hd::[] => if (c = hd andalso count = 0) then aux_remove_card ([], c, e, acc, count + 1)
+		      else aux_remove_card ([], c, e, hd::acc, count)	 							 
+	  | hd::tl => if (c = hd andalso count = 0) then aux_remove_card (tl, c, e, acc, count + 1)
+		      else aux_remove_card (tl, c, e, hd::acc, count)	
+    in
+	aux_remove_card (cs, c, e, [], 0)
+    end
