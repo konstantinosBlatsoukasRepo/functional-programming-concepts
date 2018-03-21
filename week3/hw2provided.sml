@@ -79,4 +79,19 @@ fun card_color (suit, rank) =
 	Clubs => Black
       | Spades => Black
       | Hearts => Red
-      | Diamons => Red	      
+      | Diamons => Red
+
+fun card_value (suit, rank) =
+    case rank of 
+       Num 1 => 1
+     | Num 2 => 2
+     | Num 3 => 3
+     | Num 4 => 4
+     | Num 5 => 5
+     | Num 6 => 6
+     | Num 7 => 7
+     | Num 8 => 8
+     | Num 9 => 9
+     | Ace => 11
+     | _ => 10 		   
+       
