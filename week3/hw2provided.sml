@@ -55,8 +55,7 @@ fun similar_names (substitutionStringListList, {first, middle, last}) =
     in
 	 aux_similar_names(subs, first, middle, last, [])	      
     end	
-     
-    
+     	
 	    
 (*case all_except_option (str, x) of 
 		       NONE => get_substitutions2 (x', str)
@@ -72,5 +71,12 @@ datatype color = Red | Black
 datatype move = Discard of card | Draw 
 
 exception IllegalMove
-
+	      
 (* put your solutions for problem 2 here *)
+	      
+fun card_color (suit, rank) =
+    case suit of
+	Clubs => Black
+      | Spades => Black
+      | Hearts => Red
+      | Diamons => Red	      
