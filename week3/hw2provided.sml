@@ -108,6 +108,29 @@ fun remove_card (cs, c, e) =
 	aux_remove_card (cs, c, e, [], 0)
     end
 
+fun extract_suits cs = 
+    case cs of
+	[] => []
+      | hd::[] => [card_color(hd)]
+      | hd::tl  => [card_color(hd)] @ extract_suits(tl) 		      
+				
+fun all_same_color cs =
+    let
+	val suits = extract_suits(cs)
+	fun aux suits  =
+	    case suits of
+		[] => true
+	      | hd::tl => case tl of
+			      [] => true
+			    | tl::tl' => if hd = tl then
+ 					     aux tl'
+					 else
+					     false 			      
+    in
+	aux(suits)
+    end
+	
+		 			       
 fun sum_cards cs =
     let
 	fun aux (cs, score) =
@@ -118,3 +141,14 @@ fun sum_cards cs =
     in
 	aux(cs, 0)
     end 
+
+fun score (cs, goal) =
+    let
+	val sum = sum_cards cs
+    in
+	if sum > goal then sum - goal else
+	if sum < goal then goal - sum
+	else 0						      
+    end	 
+    
+	
