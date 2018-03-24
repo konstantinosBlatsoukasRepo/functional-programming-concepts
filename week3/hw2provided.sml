@@ -54,12 +54,7 @@ fun similar_names (substitutionStringListList, {first, middle, last}) =
 		      | x :: xs  => aux_similar_names (xs, first, middle, last, {first = x, middle = aux_middle, last = last}::acc)	    
     in
 	 aux_similar_names(subs, first, middle, last, [])	      
-    end	
-     	
-	    
-(*case all_except_option (str, x) of 
-		       NONE => get_substitutions2 (x', str)
-		     | SOME i => i @ get_substitutions2 (x', str)*) 							
+    end	 							
    
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
@@ -150,5 +145,29 @@ fun score (cs, goal) =
 	if sum < goal then goal - sum
 	else 0						      
     end	 
-    
+
+fun officiate (cardList, moves, goal) =
+    let
+	fun aux (heldCards, cardList, moves, goal) =
+	    if sum_cards(heldCards) > goal andalso all_same_color(heldCards)
+	    then score (heldCards, goal) else
+	    if sum_cards(heldCards) > goal
+	    then score (heldCards, goal) div 2				  
+	    else 
+ 		case moves of
+		    [] => if sum_cards(heldCards) > goal andalso all_same_color(heldCards)
+			  then score (heldCards, goal) else
+			  (score (heldCards, goal)) div 2		 
+		  | x::xs => case x of
+				 Discard c => aux (remove_card (heldCards, c, IllegalMove), cardList, xs, goal)
+			       | Draw => case cardList of
+					     [] => if sum_cards(heldCards) > goal andalso all_same_color(heldCards)
+						   then score (heldCards, goal) else
+						   (score (heldCards, goal)) div 2
+						   
+					   | y::ys => aux (y::heldCards, ys, xs, goal) 		 
+    in
+	aux([], cardList, moves, goal)
+    end 	
+
 	
