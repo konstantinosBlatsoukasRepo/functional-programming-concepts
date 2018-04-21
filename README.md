@@ -114,3 +114,34 @@ val result = SOME 5 : int option
 - valOf result;
 val it = 5 : int
 ```
+## Second part (Pattern matching, tail recursion)
+
+### Pattern matching
+It's like a switch statement but not necessarily for some kind of enumeration only.
+Let me give you an example, the code bellow uses if then statements to decide what action is going to take (in this case checks whether a list is empty or not)
+```sml
+fun print_head (aList: string list) =
+    if null aList
+    then "the list is empty, I couldn't find any head"
+    else hd aList
+```
+You can accomplish the same result in an much more elegant way by using pattern matching (see next snippet)
+```sml
+fun print_head_pattern_matching (aList: string list) =
+    case aList of
+	[] => "the list is empty, I couldn't find any head"
+	| x::xs => x
+```
+The above code fragment is equivalent to the previous program, the first case statement checks whether a list is empty by using the [] and after the arrow says what is about to execute if the list is empty.
+if not, continues and checks the second case (in an non empty list, x is the head and xs is the tail of the list)
+
+here a few reasons why you will wnat to use pattern matching:
+1. you are getting a compiler warning if you miss a case. Let's say for some reason we forgot to test the empty list case, compiler has some to say about it
+```sml
+- fun print_head_pm_non_exhaustive (aList: string list) =
+    case aList of
+	x::xs => x;
+= stdIn:49.5-50.12 Warning: match nonexhaustive
+          x :: xs => ...
+```
+2. you can't duplicate a case, you will have an error at compile time
