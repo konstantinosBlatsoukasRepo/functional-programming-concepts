@@ -1,4 +1,4 @@
-# Basic Functional concetps (ML)
+# Basic Functional concepts (ML)
 ## First part (Shadowing, Function, Tuples, Lists, Option)
 
 ### Shadowing
