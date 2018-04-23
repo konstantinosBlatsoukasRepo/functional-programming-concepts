@@ -145,3 +145,35 @@ here a few reasons why you will wnat to use pattern matching:
           x :: xs => ...
 ```
 2. you can't duplicate a case, you will have an error at compile time
+
+When in an already defined varaible you assign again a different value/binding
+```sml
+- val a = 2;
+val a = 2 : int (*a here is bound to 2*)
+- val a = 3; (*now a is bound to 3, in this case a "shadows" the previous binding*)
+val a = 3 : int
+```
+### Tail Recursion
+I will start to explain this concept by an example.
+Let's say that we want to compute the factorial of a number, one solution
+could be the following:
+```sml
+fun factorial (n: int) =
+    if n = 0 then 1 else n * factorial(n - 1)
+```
+It's seems a good one, it calculates properly the factorial (at least the small ones)
+But there is problem, each time that factorial(n - 1) is called is also pushed in an stack. In a case that the n is really big the stack explodes (stack overflow). Tail recursion to the rescue! the bellow code gives a solution that avoids the stack explosion
+
+```sml
+fun factorial n =
+    let
+	    fun inner (k, acc) =
+	        if k = 0 then
+		    acc
+	        else
+		    inner(k - 1, k * acc)
+    in
+	    inner(n, 1)
+    end    
+```
+The above code uses an inner function (helper function) that accumulates the result of each multiplication and decreases the input number, finally calls itself. This call is called a tail call, all functional languages can understand this call and each time this kind of a call happens the function doesn't pushed to the stack.
