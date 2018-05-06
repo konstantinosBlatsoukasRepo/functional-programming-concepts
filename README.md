@@ -177,3 +177,28 @@ fun factorial n =
     end    
 ```
 The above code uses an inner function (helper function) that accumulates the result of each multiplication and decreases the input number, finally calls itself. This call is called a tail call, all functional languages can understand this call and each time this kind of a call happens the function doesn't pushed to the stack.
+
+
+## Third part (Higher order functions)
+
+Usually a function takes as arguments some values (e.g. data) ,but there are some special kind of
+functions that can take as arguments other functions, those functions are called higher order functions
+(or they can return functions)
+
+For example, the bellow function sum is a higher order function, the first
+argument is function that takes an int and returns an int, the second one
+is the range of numbers that the function is applied (i.e. if n = 3 then the function is going to return
+the following result g(3) + g(2) + g(1) +g(0))
+
+```sml
+fun sum (g: int -> int, n: int) =
+    if n = 0 then g(0) else g(n) + sum(g, n - 1)
+
+fun square_of(x: int) = x * x;
+```
+
+So, if you pass the square_of function in sum you are going to get the summation
+of squared numbers from n to 0 (i.e. 3^2 + 2^2 + 1^2 + 0^2)
+If you have any function that takes as an argument an int and returns a int you
+can pass it to sum (for example, you may want to calculate the sum of cube numbers, you
+just implement a function that calculates the cube of a number and you pass it in the sum)
