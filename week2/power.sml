@@ -21,3 +21,17 @@ fun find_minimum (aList: int list) =
 	    inner_min (aList, 1000)
 	end
 				  
+fun print_head (aList: string list) =
+    if null aList
+    then "the list is empty, I couldn't find any head"
+    
+
+fun print_head_pattern_matching (aList: string list) =
+    case aList of
+	[] => "the list is empty, I couldn't find any head"
+      | x::xs => x
+	  	     
+fun print_head_pm_non_exhaustive (aList: string list) =
+    case aList of
+	x::xs => x
+		      

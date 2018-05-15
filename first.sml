@@ -1,3 +1,20 @@
+
+fun factorial n =
+    let
+	fun inner (k, acc) =
+	    if k = 0 then
+		acc
+	    else
+		inner(k - 1, k * acc)
+    in
+	inner(n, 1)
+    end    
+
+
+
+(*n factorial n = 
+    if n = 0 then 1 else n * factorial(n - 1)*)
+				     
 (* this is a comment. This is our first program. *)
 val x = 34;
 (* static enviroment: x : int *)
@@ -38,3 +55,8 @@ fun max (xs : int list) =
 
 			   
     
+fun sum (g: int -> int, n: int) =
+    if n = 0 then g(0) else g(n) + sum(g, n - 1)
+				      
+fun square_of(x: int) = x * x;
+				      
