@@ -41,5 +41,13 @@
       (+ (car xs) (sum (cdr xs)))))
 
 
+(define (fact n)
+  (if (= n 0)
+      1
+      (* n (fact (- n 1)))))
 
+(define (silly-double x)
+  (let ([x (+ x 3)]
+        [y (+ x 2)])
+    (+ x y -5)))
 
