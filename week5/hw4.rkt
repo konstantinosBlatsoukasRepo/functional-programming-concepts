@@ -19,3 +19,10 @@
   (cond [(< n 0) (error "list-nth-mod: negative number")]
         [(null? xs) (error "list-nth-mod: empty list")]
         [#t (list-ref xs (remainder n (length xs)))]))
+
+(define (stream-for-n-steps s n)
+  (define (helper s n xs)
+    (if (= n 0)
+        xs        
+        (helper s (- n 1) (append xs (list (car (s)))))))
+  (helper s n null))
