@@ -11,3 +11,6 @@
         xs
         (helper (+ from stride) to stride (append xs (list from)))))
   (helper from to stride null))
+
+(define (string-append-map xs prefix)
+  (map (lambda (in) (string-append in prefix)) xs))
