@@ -2,7 +2,7 @@
 #lang racket
 
 (provide (all-defined-out)) ;; so we can put tests in a second file
-
+(define ones (lambda () (cons 1 ones)))
 ;; put your code below
 
 (define (sequence from to stride)
@@ -24,5 +24,20 @@
   (define (helper s n xs)
     (if (= n 0)
         xs        
-        (helper s (- n 1) (append xs (list (car (s)))))))
-  (helper s n null))
+        (helper (cdr (s)) (- n 1) (append xs (list (car (s)))))))
+(helper s n null))
+
+(define (funny-number-stream) 
+  (define (helper-sequence x)
+    (cons (if (= 0 (remainder x 5)) (- x)
+           x)
+          (lambda () (helper-sequence (+ x 1)))))
+  (helper-sequence 1))
+
+
+(define (dan-then-dog)
+  (define (helper-dan-the-dog x)
+    (cons (if (= 0 (remainder x 2))
+              "dan.jpg" "dog.jpg")
+          (lambda () (helper-dan-the-dog (+ x 1)))))
+  (helper-dan-the-dog 2))
