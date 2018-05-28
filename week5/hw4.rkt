@@ -41,3 +41,17 @@
               "dan.jpg" "dog.jpg")
           (lambda () (helper-dan-the-dog (+ x 1)))))
   (helper-dan-the-dog 2))
+
+
+(define (stream-add-zero s)
+       (letrec ([f (lambda(x)
+                (lambda() (cons (cons 0 (car (x))) (f (cdr (x))))))])
+(f s)))
+
+
+(define (cycle-lists xs ys)
+   (define (helper-cycle xs ys n)
+     (lambda ()
+       (cons (cons (list-nth-mod xs n) (list-nth-mod ys n))
+             (helper-cycle xs ys (+ n 1)))))
+  (helper-cycle xs ys 0))
