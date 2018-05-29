@@ -55,3 +55,16 @@
        (cons (cons (list-nth-mod xs n) (list-nth-mod ys n))
              (helper-cycle xs ys (+ n 1)))))
   (helper-cycle xs ys 0))
+
+;vector-length, vector-ref and equal?
+;(vector-length (vector 1 2 3)) ;3
+;(vector-ref (vector 1 2 3) 1) ;2
+(define (vector-assoc v vec)
+  (define (helper v vec index xs)
+    (if (= index (vector-length vec))
+        xs
+        (helper v vec (+ index 1) (+ xs (vector-ref vec index)))
+        )
+    )
+  (helper v vec 0 0)
+  )
