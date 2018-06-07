@@ -60,11 +60,9 @@
 ;(vector-length (vector 1 2 3)) ;3
 ;(vector-ref (vector 1 2 3) 1) ;2
 (define (vector-assoc v vec)
-  (define (helper v vec index xs)
-    (if (= index (vector-length vec))
-        xs
-        (helper v vec (+ index 1) (+ xs (vector-ref vec index)))
-        )
-    )
-  (helper v vec 0 0)
-  )
+  (define (helper v vec index)
+    (cond [(= index (vector-length vec)) #f] ;not a pair and the end of the list, then return false
+          [(and (pair? (vector-ref vec index)) (= index (- (vector-length vec)) 1) (if (= v (car (vector-ref vec index))) (vector-ref vec index) #f))]
+          [(not (pair? (vector-ref vec index)))  (helper v vec (+ index 1))] ;not a pair and not the end of the list, skip it
+          [#t (if (= v (car (vector-ref vec index))) (vector-ref vec index) (helper v vec (+ index 1)))]))
+  (helper v vec 0))
